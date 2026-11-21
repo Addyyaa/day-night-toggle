@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0c0e13">
+  <title>日夜切换 · Web Component</title>
+  <script src="./day-night-toggle.js" defer></script>
+  <style>
+    :root {
+      color-scheme: dark;
+      font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif;
+      background: #0c0e13;
+      color: #f4f1ed;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      min-height: 100vh;
+      margin: 0;
+      background: radial-gradient(ellipse at 32% 0%, #1b1c2a 0%, #0c0e13 56%);
+    }
+
+    main {
+      width: min(690px, calc(100% - 32px));
+      margin: auto;
+      padding: clamp(44px, 11vh, 100px) 0 48px;
+    }
+
+    h1 {
+      margin: 0 0 28px;
+      font-size: clamp(38px, 8vw, 68px);
+      line-height: 1.14;
+      letter-spacing: -.045em;
+    }
+
+    .demo {
+      margin: 0;
+      border: 1px solid #ffffff25;
+      border-radius: 22px;
+      overflow: hidden;
+      background: #13161e;
+      box-shadow: 0 20px 44px #0003;
+    }
+
+    .stage {
+      position: relative;
+      display: grid;
+      place-items: center;
+      isolation: isolate;
+      overflow: hidden;
+      min-height: 220px;
+      aspect-ratio: 2;
+      background: #16223b;
+    }
+
+    .scene-photo {
+      position: absolute;
+      inset: -12px;
+      z-index: -1;
+      filter: blur(4px) brightness(.66);
+      --lake: url("assets/alpine-lake.webp");
+    }
+
+    .scene-photo::before, .scene-photo::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-position: center;
+      background-repeat: no-repeat;
+    }
+
+    .scene-photo::before {
+      background-image: linear-gradient(#1e376c, #355781 65%, #6b7fa2), var(--lake);
+      background-blend-mode: multiply;
+      background-size: 100% 100%, cover;
+    }
+
+    .scene-photo::after {
+      background-image: var(--lake);
+      background-size: cover;
+      opacity: 0;
+      transition: opacity 1450ms ease-in-out;
+    }
+
+    [data-day="true"] .scene-photo::after { opacity: 1; }
+
+    day-night-toggle { --day-night-toggle-width: min(80%, 440px); }
+
+    figcaption {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      border-top: 1px solid #ffffff17;
+      padding: 18px 20px;
+      color: #aeb4c2;
+      font-size: .875rem;
+    }
+
+    #state {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: #c6d0fe;
+      white-space: nowrap;
+    }
+
+    #state::before {
+      content: "";
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: currentColor;
+      box-shadow: 0 0 9px currentColor;
+    }
+
+    [data-day="true"] #state { color: #ffd699; }
+
+    @media (prefers-reduced-motion: reduce) {
+      .scene-photo::after { transition: none; }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>日夜切换</h1>
+    <figure class="demo" data-day="false">
+      <div class="stage">
+        <span class="scene-photo" aria-hidden="true"></span>
+        <day-night-toggle label="白天模式"></day-night-toggle>
+      </div>
+      <figcaption>
+        <span id="instruction">点击迎接日出</span>
+        <span id="state" role="status">黑夜</span>
+      </figcaption>
+    </figure>
+  </main>
+  <script>
+    const demo = document.querySelector('.demo');
+    demo.addEventListener('change', ({ detail: { day } }) => {
+      demo.dataset.day = day;
+      document.getElementById('instruction').textContent = day ? '点击迎接月升' : '点击迎接日出';
+      document.getElementById('state').textContent = day ? '白天' : '黑夜';
+    });
+  </script>
+</body>
+</html>
