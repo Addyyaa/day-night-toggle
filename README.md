@@ -56,3 +56,15 @@ day-night-toggle {
 Use case: photorealistic-natural. Create a photorealistic landscape photograph for a day/night toggle button background. One continuous extra-wide horizontal panorama, approx 2.5:1 if available. Low eye-level view across a still Canadian alpine lake, with distant rugged low mountains, conifer woodland on the shoreline and understated natural reflections in the water. Quiet early morning, clear cool blue air near the top, hints of warm pale apricot haze at the horizon, two or three thin wisps of high cloud. Restrained photographic color, real rock and pine texture, natural atmospheric perspective. Composition is crucial: sky takes up the upper ~62% of the horizontal image, mountain peaks rise only to ~52% down, the lake takes the bottom ~23%; leave the middle of the sky wide open to composite a moving sun and moon. No steep peaks extending into the top half of the composition. Do not include a sun, moon, stars, circular flare, text, border, graphics, people, buildings or boats. The bright part of the sky is near the distant horizon. Single landscape photograph, not a collage or a mockup.
 
 </details>
+
+## Rust 桌面程序
+
+使用 Rust 和 egui 构建原生桌面窗口。安装 Rust 后，在仓库目录运行：
+
+```sh
+cargo run --release --manifest-path desktop/Cargo.toml
+```
+
+程序内嵌湖景、太阳和月球素材。点击按钮切换日夜。
+
+在线演示：[打开日夜切换页面](https://addyyaa.github.io/day-night-toggle/demo.html)
